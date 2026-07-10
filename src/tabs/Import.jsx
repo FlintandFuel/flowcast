@@ -130,6 +130,7 @@ function SuccessSummary({ summary, onDone }) {
         <span className="text-white">Total expenses</span>
         <span className="text-red-400">{formatZAR(summary.expense)}</span>
       </div>
+      {summary.demo && <div className="text-amber-400 text-xs pt-1">Demo mode — nothing was actually saved.</div>}
       <button onClick={onDone} className="w-full mt-2 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[44px]">
         Done
       </button>
@@ -215,19 +216,21 @@ function CsvImport({ user }) {
       const toImport = rows.filter((r) => r.include && r.amount > 0 && r.date);
       let income = 0, expense = 0;
       for (const r of toImport) {
-        await addDoc(collection(db, "transactions"), {
-          uid: user.uid,
-          date: r.date,
-          description: r.description || "Imported transaction",
-          category: r.category,
-          amount: r.amount,
-          type: r.type,
-          recurring: false,
-          createdAt: serverTimestamp(),
-        });
+        if (!user.isDemo) {
+          await addDoc(collection(db, "transactions"), {
+            uid: user.uid,
+            date: r.date,
+            description: r.description || "Imported transaction",
+            category: r.category,
+            amount: r.amount,
+            type: r.type,
+            recurring: false,
+            createdAt: serverTimestamp(),
+          });
+        }
         if (r.type === "income") income += r.amount; else expense += r.amount;
       }
-      setSummary({ count: toImport.length, income, expense });
+      setSummary({ count: toImport.length, income, expense, demo: user.isDemo });
       setRows(null);
     } catch (err) {
       console.error(err);
@@ -451,19 +454,21 @@ function ScreenshotImport({ user }) {
       const toImport = rows.filter((r) => r.include && r.amount > 0 && r.date);
       let income = 0, expense = 0;
       for (const r of toImport) {
-        await addDoc(collection(db, "transactions"), {
-          uid: user.uid,
-          date: r.date,
-          description: r.description || "Imported transaction",
-          category: r.category,
-          amount: r.amount,
-          type: r.type,
-          recurring: false,
-          createdAt: serverTimestamp(),
-        });
+        if (!user.isDemo) {
+          await addDoc(collection(db, "transactions"), {
+            uid: user.uid,
+            date: r.date,
+            description: r.description || "Imported transaction",
+            category: r.category,
+            amount: r.amount,
+            type: r.type,
+            recurring: false,
+            createdAt: serverTimestamp(),
+          });
+        }
         if (r.type === "income") income += r.amount; else expense += r.amount;
       }
-      setSummary({ count: toImport.length, income, expense });
+      setSummary({ count: toImport.length, income, expense, demo: user.isDemo });
       setRows(null);
     } catch (err) {
       console.error(err);

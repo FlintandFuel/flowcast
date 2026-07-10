@@ -4,15 +4,16 @@ import { db } from "../firebase";
 import TransactionForm from "../components/TransactionForm.jsx";
 import { formatZAR, formatDateDisplay } from "../utils/format";
 import { ALL_CATEGORIES, categoryColor } from "../utils/categories";
+import { demoTransactions, DEMO_BLOCKED_MESSAGE } from "../demoData.js";
 
 export default function Transactions({ user }) {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState(() => (user?.isDemo ? demoTransactions : []));
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.isDemo) return;
     const q = query(collection(db, "transactions"), where("uid", "==", user.uid));
     return onSnapshot(q, (snap) => setTransactions(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
   }, [user?.uid]);
@@ -25,6 +26,10 @@ export default function Transactions({ user }) {
   }, [transactions, filterType, filterCategory]);
 
   const handleDelete = async (id) => {
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      return;
+    }
     if (!window.confirm("Delete this transaction?")) return;
     await deleteDoc(doc(db, "transactions", id));
   };

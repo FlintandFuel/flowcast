@@ -4,6 +4,7 @@ import { db } from "../firebase";
 import { formatZAR, todayStr, toDateStr, formatDateDisplay } from "../utils/format";
 import { categoriesForType, categoryType, categoryColor } from "../utils/categories";
 import { getNextDueDate } from "../utils/recurring";
+import { demoRecurringItems, DEMO_BLOCKED_MESSAGE } from "../demoData.js";
 
 function ItemForm({ user, item, onClose }) {
   const initialType = item ? categoryType(item.category) || "expense" : "expense";
@@ -25,6 +26,11 @@ function ItemForm({ user, item, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      onClose();
+      return;
+    }
     const amt = parseFloat(amount);
     if (!amt || amt <= 0) {
       setError("Enter a valid amount");
@@ -164,12 +170,12 @@ function ItemForm({ user, item, onClose }) {
 }
 
 export default function Recurring({ user }) {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState(() => (user?.isDemo ? demoRecurringItems : []));
   const [showForm, setShowForm] = useState(false);
   const [editItem, setEditItem] = useState(null);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.isDemo) return;
     const q = query(collection(db, "recurringItems"), where("uid", "==", user.uid));
     return onSnapshot(q, (snap) => setItems(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
   }, [user?.uid]);
@@ -186,10 +192,18 @@ export default function Recurring({ user }) {
   }, [items]);
 
   const handleToggleActive = async (item) => {
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      return;
+    }
     await updateDoc(doc(db, "recurringItems", item.id), { active: !item.active });
   };
 
   const handleDelete = async (id) => {
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      return;
+    }
     if (!window.confirm("Delete this recurring item?")) return;
     await deleteDoc(doc(db, "recurringItems", id));
   };

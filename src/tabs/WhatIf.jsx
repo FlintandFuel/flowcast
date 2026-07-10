@@ -11,6 +11,7 @@ import {
   computeEndOfYearBalance,
   buildMonthlyChartData,
 } from "../utils/metrics";
+import { demoTransactions, demoRecurringItems, demoScenarios, DEMO_BLOCKED_MESSAGE } from "../demoData.js";
 
 const MAX_SCENARIOS = 5;
 
@@ -132,28 +133,28 @@ function Delta({ label, base, scenario, format = formatZAR }) {
 }
 
 export default function WhatIf({ user }) {
-  const [transactions, setTransactions] = useState([]);
-  const [recurringItems, setRecurringItems] = useState([]);
-  const [scenarios, setScenarios] = useState([]);
+  const [transactions, setTransactions] = useState(() => (user?.isDemo ? demoTransactions : []));
+  const [recurringItems, setRecurringItems] = useState(() => (user?.isDemo ? demoRecurringItems : []));
+  const [scenarios, setScenarios] = useState(() => (user?.isDemo ? demoScenarios : []));
   const [activeId, setActiveId] = useState(null);
   const [showNewForm, setShowNewForm] = useState(false);
   const [newName, setNewName] = useState("");
   const [showItemForm, setShowItemForm] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.isDemo) return;
     const q = query(collection(db, "transactions"), where("uid", "==", user.uid));
     return onSnapshot(q, (snap) => setTransactions(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
   }, [user?.uid]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.isDemo) return;
     const q = query(collection(db, "recurringItems"), where("uid", "==", user.uid));
     return onSnapshot(q, (snap) => setRecurringItems(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
   }, [user?.uid]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.isDemo) return;
     const q = query(collection(db, "scenarios"), where("uid", "==", user.uid));
     return onSnapshot(q, (snap) => setScenarios(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
   }, [user?.uid]);
@@ -189,6 +190,11 @@ export default function WhatIf({ user }) {
 
   const handleCreateScenario = async (e) => {
     e.preventDefault();
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      setShowNewForm(false);
+      return;
+    }
     if (!newName.trim() || scenarios.length >= MAX_SCENARIOS) return;
     const ref = await addDoc(collection(db, "scenarios"), { uid: user.uid, name: newName.trim(), items: [] });
     setNewName("");
@@ -197,18 +203,30 @@ export default function WhatIf({ user }) {
   };
 
   const handleDeleteScenario = async (id) => {
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      return;
+    }
     if (!window.confirm("Delete this scenario?")) return;
     await deleteDoc(doc(db, "scenarios", id));
     if (activeId === id) setActiveId(null);
   };
 
   const handleAddItem = async (item) => {
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      return;
+    }
     if (!activeScenario) return;
     const items = [...(activeScenario.items || []), item];
     await updateDoc(doc(db, "scenarios", activeScenario.id), { items });
   };
 
   const handleRemoveItem = async (index) => {
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      return;
+    }
     if (!activeScenario) return;
     const items = (activeScenario.items || []).filter((_, i) => i !== index);
     await updateDoc(doc(db, "scenarios", activeScenario.id), { items });

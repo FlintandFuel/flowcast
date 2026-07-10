@@ -8,20 +8,21 @@ import { formatZAR, formatDateShort, todayStr } from "../utils/format";
 import { computeBalance, computeSafeToSpend, computeRunway, computeMonthToDate, computeCategoryBreakdown, buildMonthlyChartData } from "../utils/metrics";
 import { projectUnpaidOccurrences } from "../utils/recurring";
 import { categoryType, categoryColor } from "../utils/categories";
+import { demoTransactions, demoRecurringItems, DEMO_BLOCKED_MESSAGE } from "../demoData.js";
 
 export default function Dashboard({ user }) {
-  const [transactions, setTransactions] = useState([]);
-  const [recurringItems, setRecurringItems] = useState([]);
+  const [transactions, setTransactions] = useState(() => (user?.isDemo ? demoTransactions : []));
+  const [recurringItems, setRecurringItems] = useState(() => (user?.isDemo ? demoRecurringItems : []));
   const [confirming, setConfirming] = useState(null);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.isDemo) return;
     const q = query(collection(db, "transactions"), where("uid", "==", user.uid));
     return onSnapshot(q, (snap) => setTransactions(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
   }, [user?.uid]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || user.isDemo) return;
     const q = query(collection(db, "recurringItems"), where("uid", "==", user.uid));
     return onSnapshot(q, (snap) => setRecurringItems(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
   }, [user?.uid]);
@@ -47,6 +48,10 @@ export default function Dashboard({ user }) {
       : `${runway.months.toFixed(1)}mo`;
 
   const handleConfirm = async (occurrence) => {
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      return;
+    }
     setConfirming(occurrence.recurringItemId + occurrence.date);
     try {
       await addDoc(collection(db, "transactions"), {

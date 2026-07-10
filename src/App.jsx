@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from "react";
 import { auth, provider } from "./firebase";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { demoUser } from "./demoData.js";
 
 import Dashboard from "./tabs/Dashboard.jsx";
 import Transactions from "./tabs/Transactions.jsx";
@@ -30,6 +31,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [loginError, setLoginError] = useState("");
+  const [demoMode, setDemoMode] = useState(false);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -51,8 +53,11 @@ export default function App() {
   };
 
   const handleLogout = async () => {
+    setDemoMode(false);
     await signOut(auth);
   };
+
+  const effectiveUser = user || (demoMode ? demoUser : null);
 
   if (loading) {
     return (
@@ -62,7 +67,7 @@ export default function App() {
     );
   }
 
-  if (!user) {
+  if (!effectiveUser) {
     return (
       <div className="relative min-h-screen bg-gray-950 flex flex-col items-center justify-center px-6 overflow-hidden">
         <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-blue-500/15 blur-[100px]" />
@@ -76,6 +81,12 @@ export default function App() {
         >
           Sign in with Google
         </button>
+        <button
+          onClick={() => setDemoMode(true)}
+          className="relative text-white/50 hover:text-white text-sm mt-4 underline underline-offset-2"
+        >
+          View Demo
+        </button>
         {loginError && <p className="relative text-red-400 text-xs mt-4 text-center max-w-xs">{loginError}</p>}
       </div>
     );
@@ -83,26 +94,31 @@ export default function App() {
 
   const renderTab = () => {
     switch (activeTab) {
-      case "dashboard": return <Dashboard user={user} onNavigate={setActiveTab} />;
-      case "transactions": return <Transactions user={user} />;
-      case "recurring": return <Recurring user={user} />;
-      case "whatif": return <WhatIf user={user} />;
-      case "import": return <Import user={user} />;
+      case "dashboard": return <Dashboard user={effectiveUser} onNavigate={setActiveTab} />;
+      case "transactions": return <Transactions user={effectiveUser} />;
+      case "recurring": return <Recurring user={effectiveUser} />;
+      case "whatif": return <WhatIf user={effectiveUser} />;
+      case "import": return <Import user={effectiveUser} />;
       default: return null;
     }
   };
 
   return (
     <div className="h-screen bg-gray-950 flex flex-col max-w-md mx-auto">
+      {demoMode && (
+        <div className="bg-amber-500 text-gray-950 text-xs font-medium text-center py-1.5 flex-shrink-0">
+          Demo Mode — sample data, changes aren't saved
+        </div>
+      )}
       <div className="border-b border-white/[0.08] px-4 py-3 flex items-center justify-between flex-shrink-0">
         <h1 className="text-white font-bold text-lg tracking-tight">FlowCast</h1>
         <div className="flex items-center gap-3">
-          <span className="text-white/50 text-xs">{user.displayName}</span>
+          <span className="text-white/50 text-xs">{effectiveUser.displayName}</span>
           <button
             onClick={handleLogout}
             className="text-white/50 hover:text-white text-xs transition"
           >
-            Logout
+            {demoMode ? "Exit Demo" : "Logout"}
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { categoriesForType } from "../utils/categories";
 import { todayStr } from "../utils/format";
+import { DEMO_BLOCKED_MESSAGE } from "../demoData.js";
 
 export default function TransactionForm({ user, onClose, onSaved }) {
   const [type, setType] = useState("expense");
@@ -25,6 +26,11 @@ export default function TransactionForm({ user, onClose, onSaved }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (user.isDemo) {
+      alert(DEMO_BLOCKED_MESSAGE);
+      onClose();
+      return;
+    }
     const amt = parseFloat(amount);
     if (!amt || amt <= 0) {
       setError("Enter a valid amount");
