@@ -229,9 +229,9 @@ export default function Recurring({ user }) {
                   }}
                 >
                   <div className="text-white text-sm font-medium truncate">{item.name}</div>
-                  <div className="text-white text-xs">{item.category} Â· {item.frequency}</div>
+                  <div className="text-white text-xs">{item.category} · {item.frequency}</div>
                   <div className="text-white text-xs mt-0.5">
-                    Next due: {next ? formatDateDisplay(toDateStr(next)) : "â€”"}
+                    Next due: {next ? formatDateDisplay(toDateStr(next)) : "—"}
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2 flex-shrink-0">

@@ -95,7 +95,7 @@ export default function Transactions({ user }) {
                     </span>
                   )}
                 </div>
-                <div className="text-white text-xs">{formatDateDisplay(t.date)} Â· {t.category}</div>
+                <div className="text-white text-xs">{formatDateDisplay(t.date)} · {t.category}</div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className={`text-sm font-semibold ${t.type === "income" ? "text-green-500" : "text-red-400"}`}>
@@ -105,7 +105,7 @@ export default function Transactions({ user }) {
                   onClick={() => handleDelete(t.id)}
                   className="text-white hover:text-red-400 text-xs w-7 h-7 flex items-center justify-center flex-shrink-0"
                 >
-                  âœ•
+                  ✕
                 </button>
               </div>
             </div>

@@ -214,7 +214,7 @@ export default function WhatIf({ user }) {
     await updateDoc(doc(db, "scenarios", activeScenario.id), { items });
   };
 
-  const runwayText = (r) => (r.months === Infinity ? "âˆž" : `${r.months.toFixed(1)}mo`);
+  const runwayText = (r) => (r.months === Infinity ? "∞" : `${r.months.toFixed(1)}mo`);
 
   return (
     <div className="p-4 pb-24 space-y-4">
@@ -293,14 +293,14 @@ export default function WhatIf({ user }) {
                   <div key={i} className="bg-gray-900 border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <div className="text-white text-sm font-medium truncate">{it.description}</div>
-                      <div className="text-white text-xs">{it.date} Â· {it.category}</div>
+                      <div className="text-white text-xs">{it.date} · {it.category}</div>
                     </div>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       <span className="text-sm font-semibold text-amber-400">
                         {it.type === "income" ? "+" : "-"}{formatZAR(it.amount)}
                       </span>
                       <button onClick={() => handleRemoveItem(i)} className="text-white hover:text-red-400 text-xs w-7 h-7 flex items-center justify-center">
-                        âœ•
+                        ✕
                       </button>
                     </div>
                   </div>

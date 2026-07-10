@@ -39,7 +39,7 @@ export default function Dashboard({ user }) {
   }, [recurringItems, transactions]);
 
   const runwayLabel = runway.months === Infinity
-    ? "âˆž"
+    ? "∞"
     : runway.days < 30
       ? `${Math.max(0, Math.round(runway.days))}d`
       : `${runway.months.toFixed(1)}mo`;
@@ -106,8 +106,8 @@ export default function Dashboard({ user }) {
                   <div className="min-w-0">
                     <div className="text-white text-sm font-medium truncate">{o.description}</div>
                     <div className="text-white text-xs">
-                      {o.category} Â· {formatDateShort(o.date)}
-                      {overdue && <span className="text-red-400"> Â· overdue</span>}
+                      {o.category} · {formatDateShort(o.date)}
+                      {overdue && <span className="text-red-400"> · overdue</span>}
                     </div>
                   </div>
                   <div className="flex items-center gap-2 flex-shrink-0">

@@ -9,11 +9,11 @@ import WhatIf from "./tabs/WhatIf.jsx";
 import Import from "./tabs/Import.jsx";
 
 const tabs = [
-  { id: "dashboard", label: "Dashboard", icon: "â¬¡" },
-  { id: "transactions", label: "Transactions", icon: "â‰¡" },
-  { id: "recurring", label: "Recurring", icon: "â†»" },
-  { id: "whatif", label: "What-If", icon: "â—ˆ" },
-  { id: "import", label: "Import", icon: "â‡ª" },
+  { id: "dashboard", label: "Dashboard", icon: "⬡" },
+  { id: "transactions", label: "Transactions", icon: "≡" },
+  { id: "recurring", label: "Recurring", icon: "↻" },
+  { id: "whatif", label: "What-If", icon: "◈" },
+  { id: "import", label: "Import", icon: "⇪" },
 ];
 
 const LOGIN_ERROR_MESSAGES = {
