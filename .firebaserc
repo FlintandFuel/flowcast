@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "fafc-os"
+  },
+  "targets": {
+    "fafc-os": {
+      "hosting": {
+        "flowcast": [
+          "flowcast-fafc"
+        ]
+      }
+    }
+  }
+}
