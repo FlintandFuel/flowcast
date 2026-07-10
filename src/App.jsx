@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { auth, provider } from "./firebase";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 
@@ -9,11 +9,11 @@ import WhatIf from "./tabs/WhatIf.jsx";
 import Import from "./tabs/Import.jsx";
 
 const tabs = [
-  { id: "dashboard", label: "Dashboard", icon: "⬡" },
-  { id: "transactions", label: "Transactions", icon: "≡" },
-  { id: "recurring", label: "Recurring", icon: "↻" },
-  { id: "whatif", label: "What-If", icon: "◈" },
-  { id: "import", label: "Import", icon: "⇪" },
+  { id: "dashboard", label: "Dashboard", icon: "â¬¡" },
+  { id: "transactions", label: "Transactions", icon: "â‰¡" },
+  { id: "recurring", label: "Recurring", icon: "â†»" },
+  { id: "whatif", label: "What-If", icon: "â—ˆ" },
+  { id: "import", label: "Import", icon: "â‡ª" },
 ];
 
 const LOGIN_ERROR_MESSAGES = {
@@ -56,7 +56,7 @@ export default function App() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-gray-400 text-sm tracking-widest uppercase">Loading...</div>
+        <div className="text-white text-sm tracking-widest uppercase">Loading...</div>
       </div>
     );
   }
@@ -65,7 +65,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-6">
         <h1 className="text-white text-3xl font-bold mb-2">FlowCast</h1>
-        <p className="text-gray-500 text-sm mb-8 text-center">Know your numbers. Own your future.</p>
+        <p className="text-white text-sm mb-8 text-center">Know your numbers. Own your future.</p>
         <button
           onClick={handleLogin}
           className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition min-h-[44px]"
@@ -93,10 +93,10 @@ export default function App() {
       <div className="border-b border-gray-800 px-4 py-3 flex items-center justify-between flex-shrink-0">
         <h1 className="text-white font-bold text-lg">FlowCast</h1>
         <div className="flex items-center gap-3">
-          <span className="text-gray-500 text-xs">{user.displayName}</span>
+          <span className="text-white text-xs">{user.displayName}</span>
           <button
             onClick={handleLogout}
-            className="text-gray-500 hover:text-white text-xs transition"
+            className="text-white hover:text-white text-xs transition"
           >
             Logout
           </button>
@@ -113,7 +113,7 @@ export default function App() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
             className={`flex-1 flex flex-col items-center py-2 px-1 transition min-h-[44px] ${
-              activeTab === tab.id ? "text-blue-500" : "text-gray-500 hover:text-gray-300"
+              activeTab === tab.id ? "text-blue-500" : "text-white hover:text-white"
             }`}
           >
             <span className="text-lg leading-none">{tab.icon}</span>

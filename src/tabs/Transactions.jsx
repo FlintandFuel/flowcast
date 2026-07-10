@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+﻿import { useState, useEffect, useMemo } from "react";
 import { collection, query, where, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import TransactionForm from "../components/TransactionForm.jsx";
@@ -54,7 +54,7 @@ export default function Transactions({ user }) {
                 key={f}
                 onClick={() => setFilterType(f)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap min-h-[32px] ${
-                  filterType === f ? "bg-blue-500 text-white" : "bg-gray-900 text-gray-400 border border-gray-800"
+                  filterType === f ? "bg-blue-500 text-white" : "bg-gray-900 text-white border border-gray-800"
                 }`}
               >
                 {f === "all" ? "All" : f === "income" ? "Income" : "Expenses"}
@@ -63,7 +63,7 @@ export default function Transactions({ user }) {
           </div>
           <button
             onClick={handleExport}
-            className="text-[10px] text-gray-500 hover:text-white px-2 py-1.5 rounded-lg border border-gray-700 whitespace-nowrap"
+            className="text-[10px] text-white hover:text-white px-2 py-1.5 rounded-lg border border-gray-700 whitespace-nowrap"
           >
             Export CSV
           </button>
@@ -82,7 +82,7 @@ export default function Transactions({ user }) {
 
       <div className="flex-1 overflow-y-auto px-4 pb-24 space-y-2">
         {filtered.length === 0 ? (
-          <div className="text-gray-500 text-sm text-center py-10">No transactions found.</div>
+          <div className="text-white text-sm text-center py-10">No transactions found.</div>
         ) : (
           filtered.map((t) => (
             <div key={t.id} className="bg-gray-900 border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3">
@@ -95,7 +95,7 @@ export default function Transactions({ user }) {
                     </span>
                   )}
                 </div>
-                <div className="text-gray-500 text-xs">{formatDateDisplay(t.date)} · {t.category}</div>
+                <div className="text-white text-xs">{formatDateDisplay(t.date)} Â· {t.category}</div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className={`text-sm font-semibold ${t.type === "income" ? "text-green-500" : "text-red-400"}`}>
@@ -103,9 +103,9 @@ export default function Transactions({ user }) {
                 </span>
                 <button
                   onClick={() => handleDelete(t.id)}
-                  className="text-gray-600 hover:text-red-400 text-xs w-7 h-7 flex items-center justify-center flex-shrink-0"
+                  className="text-white hover:text-red-400 text-xs w-7 h-7 flex items-center justify-center flex-shrink-0"
                 >
-                  ✕
+                  âœ•
                 </button>
               </div>
             </div>

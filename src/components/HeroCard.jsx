@@ -1,4 +1,4 @@
-const TONE_CLASSES = {
+﻿const TONE_CLASSES = {
   default: "text-white",
   blue: "text-blue-500",
   green: "text-green-500",
@@ -9,7 +9,7 @@ const TONE_CLASSES = {
 export default function HeroCard({ label, value, sublabel, tone = "default", children }) {
   return (
     <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 flex flex-col gap-1 min-h-[104px] justify-between">
-      <span className="text-gray-500 text-xs uppercase tracking-wide">{label}</span>
+      <span className="text-white text-xs uppercase tracking-wide">{label}</span>
       {children ? (
         children
       ) : (
@@ -17,7 +17,7 @@ export default function HeroCard({ label, value, sublabel, tone = "default", chi
           {value}
         </span>
       )}
-      {sublabel && <span className="text-gray-500 text-xs">{sublabel}</span>}
+      {sublabel && <span className="text-white text-xs">{sublabel}</span>}
     </div>
   );
 }

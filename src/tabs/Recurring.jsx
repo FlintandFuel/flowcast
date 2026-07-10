@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+﻿import { useState, useEffect, useMemo } from "react";
 import { collection, query, where, onSnapshot, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { formatZAR, todayStr, toDateStr, formatDateDisplay } from "../utils/format";
@@ -75,7 +75,7 @@ function ItemForm({ user, item, onClose }) {
             type="button"
             onClick={() => handleTypeChange("income")}
             className={`flex-1 py-2.5 text-sm font-medium min-h-[44px] transition ${
-              type === "income" ? "bg-green-500/20 text-green-500" : "text-gray-500"
+              type === "income" ? "bg-green-500/20 text-green-500" : "text-white"
             }`}
           >
             Income
@@ -84,14 +84,14 @@ function ItemForm({ user, item, onClose }) {
             type="button"
             onClick={() => handleTypeChange("expense")}
             className={`flex-1 py-2.5 text-sm font-medium min-h-[44px] transition ${
-              type === "expense" ? "bg-red-400/20 text-red-400" : "text-gray-500"
+              type === "expense" ? "bg-red-400/20 text-red-400" : "text-white"
             }`}
           >
             Expense
           </button>
         </div>
 
-        <label className="block text-xs text-gray-500 mb-1">Name</label>
+        <label className="block text-xs text-white mb-1">Name</label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -99,7 +99,7 @@ function ItemForm({ user, item, onClose }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-gray-500 mb-1">Amount (ZAR)</label>
+        <label className="block text-xs text-white mb-1">Amount (ZAR)</label>
         <input
           type="number"
           step="0.01"
@@ -110,7 +110,7 @@ function ItemForm({ user, item, onClose }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-gray-500 mb-1">Category</label>
+        <label className="block text-xs text-white mb-1">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -121,7 +121,7 @@ function ItemForm({ user, item, onClose }) {
           ))}
         </select>
 
-        <label className="block text-xs text-gray-500 mb-1">Frequency</label>
+        <label className="block text-xs text-white mb-1">Frequency</label>
         <select
           value={frequency}
           onChange={(e) => setFrequency(e.target.value)}
@@ -132,7 +132,7 @@ function ItemForm({ user, item, onClose }) {
           <option value="annually">Annually</option>
         </select>
 
-        <label className="block text-xs text-gray-500 mb-1">Start date</label>
+        <label className="block text-xs text-white mb-1">Start date</label>
         <input
           type="date"
           value={startDate}
@@ -146,7 +146,7 @@ function ItemForm({ user, item, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-2.5 rounded-lg border border-gray-700 text-gray-300 min-h-[44px]"
+            className="flex-1 py-2.5 rounded-lg border border-gray-700 text-white min-h-[44px]"
           >
             Cancel
           </button>
@@ -210,7 +210,7 @@ export default function Recurring({ user }) {
       </div>
 
       {sorted.length === 0 ? (
-        <div className="text-gray-500 text-sm text-center py-10">No recurring items yet.</div>
+        <div className="text-white text-sm text-center py-10">No recurring items yet.</div>
       ) : (
         sorted.map((item) => {
           const next = getNextDueDate(item);
@@ -229,9 +229,9 @@ export default function Recurring({ user }) {
                   }}
                 >
                   <div className="text-white text-sm font-medium truncate">{item.name}</div>
-                  <div className="text-gray-500 text-xs">{item.category} · {item.frequency}</div>
-                  <div className="text-gray-500 text-xs mt-0.5">
-                    Next due: {next ? formatDateDisplay(toDateStr(next)) : "—"}
+                  <div className="text-white text-xs">{item.category} Â· {item.frequency}</div>
+                  <div className="text-white text-xs mt-0.5">
+                    Next due: {next ? formatDateDisplay(toDateStr(next)) : "â€”"}
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-2 flex-shrink-0">
@@ -256,11 +256,11 @@ export default function Recurring({ user }) {
                     setEditItem(item);
                     setShowForm(true);
                   }}
-                  className="text-[11px] text-gray-400 hover:text-white"
+                  className="text-[11px] text-white hover:text-white"
                 >
                   Edit
                 </button>
-                <button onClick={() => handleDelete(item.id)} className="text-[11px] text-gray-400 hover:text-red-400">
+                <button onClick={() => handleDelete(item.id)} className="text-[11px] text-white hover:text-red-400">
                   Delete
                 </button>
               </div>

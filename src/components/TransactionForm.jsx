@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { categoriesForType } from "../utils/categories";
@@ -85,7 +85,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
             type="button"
             onClick={() => handleTypeChange("income")}
             className={`flex-1 py-2.5 text-sm font-medium min-h-[44px] transition ${
-              type === "income" ? "bg-green-500/20 text-green-500" : "text-gray-500"
+              type === "income" ? "bg-green-500/20 text-green-500" : "text-white"
             }`}
           >
             Income
@@ -94,14 +94,14 @@ export default function TransactionForm({ user, onClose, onSaved }) {
             type="button"
             onClick={() => handleTypeChange("expense")}
             className={`flex-1 py-2.5 text-sm font-medium min-h-[44px] transition ${
-              type === "expense" ? "bg-red-400/20 text-red-400" : "text-gray-500"
+              type === "expense" ? "bg-red-400/20 text-red-400" : "text-white"
             }`}
           >
             Expense
           </button>
         </div>
 
-        <label className="block text-xs text-gray-500 mb-1">Amount (ZAR)</label>
+        <label className="block text-xs text-white mb-1">Amount (ZAR)</label>
         <input
           type="number"
           step="0.01"
@@ -112,7 +112,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-gray-500 mb-1">Description</label>
+        <label className="block text-xs text-white mb-1">Description</label>
         <input
           type="text"
           value={description}
@@ -121,7 +121,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-gray-500 mb-1">Category</label>
+        <label className="block text-xs text-white mb-1">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -132,7 +132,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           ))}
         </select>
 
-        <label className="block text-xs text-gray-500 mb-1">Date</label>
+        <label className="block text-xs text-white mb-1">Date</label>
         <input
           type="date"
           value={date}
@@ -141,7 +141,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
         />
 
         <div className="flex items-center justify-between py-2 mb-1">
-          <span className="text-sm text-gray-300">Recurring</span>
+          <span className="text-sm text-white">Recurring</span>
           <button
             type="button"
             onClick={() => setRecurring((r) => !r)}
@@ -158,7 +158,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
         {recurring && (
           <div className="mb-3 space-y-3">
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Frequency</label>
+              <label className="block text-xs text-white mb-1">Frequency</label>
               <select
                 value={frequency}
                 onChange={(e) => setFrequency(e.target.value)}
@@ -170,7 +170,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
               </select>
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Start date</label>
+              <label className="block text-xs text-white mb-1">Start date</label>
               <input
                 type="date"
                 value={startDate}
@@ -187,7 +187,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-2.5 rounded-lg border border-gray-700 text-gray-300 min-h-[44px]"
+            className="flex-1 py-2.5 rounded-lg border border-gray-700 text-white min-h-[44px]"
           >
             Cancel
           </button>
