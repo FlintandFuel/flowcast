@@ -16,10 +16,19 @@ const tabs = [
   { id: "import", label: "Import", icon: "⇪" },
 ];
 
+const LOGIN_ERROR_MESSAGES = {
+  "auth/configuration-not-found": "Google sign-in isn't enabled for this app yet. Contact the app owner.",
+  "auth/unauthorized-domain": "This site isn't authorized for sign-in yet. Contact the app owner.",
+  "auth/popup-blocked": "Your browser blocked the sign-in popup. Allow popups for this site and try again.",
+  "auth/popup-closed-by-user": "",
+  "auth/cancelled-popup-request": "",
+};
+
 export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [loginError, setLoginError] = useState("");
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
@@ -30,10 +39,13 @@ export default function App() {
   }, []);
 
   const handleLogin = async () => {
+    setLoginError("");
     try {
       await signInWithPopup(auth, provider);
     } catch (e) {
       console.error(e);
+      const message = e.code in LOGIN_ERROR_MESSAGES ? LOGIN_ERROR_MESSAGES[e.code] : "Sign-in failed. Please try again.";
+      setLoginError(message);
     }
   };
 
@@ -60,6 +72,7 @@ export default function App() {
         >
           Sign in with Google
         </button>
+        {loginError && <p className="text-red-400 text-xs mt-4 text-center max-w-xs">{loginError}</p>}
       </div>
     );
   }
