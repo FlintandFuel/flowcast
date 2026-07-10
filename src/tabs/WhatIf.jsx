@@ -41,12 +41,12 @@ function ScenarioItemForm({ onAdd, onClose }) {
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-md bg-gray-900 border-t border-gray-800 rounded-t-xl p-4 pb-6 max-h-[88vh] overflow-y-auto"
+        className="relative w-full max-w-md bg-gray-900 border-t border-white/[0.08] rounded-t-xl p-4 pb-6 max-h-[88vh] overflow-y-auto"
       >
         <div className="w-10 h-1 bg-gray-700 rounded-full mx-auto mb-4" />
         <h2 className="text-white text-lg font-semibold mb-4">Add Hypothetical Item</h2>
 
-        <div className="flex rounded-lg overflow-hidden border border-gray-800 mb-4">
+        <div className="flex rounded-lg overflow-hidden border border-white/[0.08] mb-4">
           <button
             type="button"
             onClick={() => handleTypeChange("income")}
@@ -67,7 +67,7 @@ function ScenarioItemForm({ onAdd, onClose }) {
           </button>
         </div>
 
-        <label className="block text-xs text-white mb-1">Amount (ZAR)</label>
+        <label className="block text-xs text-white/50 mb-1">Amount (ZAR)</label>
         <input
           type="number"
           step="0.01"
@@ -78,7 +78,7 @@ function ScenarioItemForm({ onAdd, onClose }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-amber-500"
         />
 
-        <label className="block text-xs text-white mb-1">Description</label>
+        <label className="block text-xs text-white/50 mb-1">Description</label>
         <input
           value={description}
           onChange={(e) => setDescription(e.target.value)}
@@ -86,7 +86,7 @@ function ScenarioItemForm({ onAdd, onClose }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-amber-500"
         />
 
-        <label className="block text-xs text-white mb-1">Category</label>
+        <label className="block text-xs text-white/50 mb-1">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -97,7 +97,7 @@ function ScenarioItemForm({ onAdd, onClose }) {
           ))}
         </select>
 
-        <label className="block text-xs text-white mb-1">Date</label>
+        <label className="block text-xs text-white/50 mb-1">Date</label>
         <input
           type="date"
           value={date}
@@ -109,7 +109,7 @@ function ScenarioItemForm({ onAdd, onClose }) {
           <button type="button" onClick={onClose} className="flex-1 py-2.5 rounded-lg border border-gray-700 text-white min-h-[44px]">
             Cancel
           </button>
-          <button type="submit" className="flex-1 py-2.5 rounded-lg bg-amber-500 text-gray-950 font-medium min-h-[44px]">
+          <button type="submit" className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-gray-950 font-medium shadow-md shadow-amber-500/20 min-h-[44px]">
             Add
           </button>
         </div>
@@ -222,7 +222,7 @@ export default function WhatIf({ user }) {
         <button
           onClick={() => setActiveId(null)}
           className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap min-h-[32px] ${
-            !activeId ? "bg-blue-500 text-white" : "bg-gray-900 text-white border border-gray-800"
+            !activeId ? "bg-blue-500 text-white" : "bg-gray-900 text-white border border-white/[0.08]"
           }`}
         >
           Base
@@ -232,7 +232,7 @@ export default function WhatIf({ user }) {
             key={s.id}
             onClick={() => setActiveId(s.id)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap min-h-[32px] ${
-              activeId === s.id ? "bg-amber-500 text-gray-950" : "bg-gray-900 text-white border border-gray-800"
+              activeId === s.id ? "bg-amber-500 text-gray-950" : "bg-gray-900 text-white border border-white/[0.08]"
             }`}
           >
             {s.name}
@@ -252,7 +252,7 @@ export default function WhatIf({ user }) {
 
       {activeScenario ? (
         <>
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+          <div className="bg-gray-900 border border-white/[0.08] rounded-xl p-4">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-white text-sm font-semibold">{activeScenario.name} vs Base</h3>
               <button onClick={() => handleDeleteScenario(activeScenario.id)} className="text-[11px] text-white hover:text-red-400">
@@ -267,7 +267,7 @@ export default function WhatIf({ user }) {
               scenario={scenarioRunway.months === Infinity ? 0 : scenarioRunway.months}
               format={(v) => `${v >= 0 ? "" : ""}${v.toFixed(1)}mo`}
             />
-            <div className="flex justify-between text-[10px] text-white mt-1 pt-1 border-t border-gray-800">
+            <div className="flex justify-between text-[10px] text-white mt-1 pt-1 border-t border-white/[0.08]">
               <span>Base runway: {runwayText(baseRunway)}</span>
               <span>Scenario runway: {runwayText(scenarioRunway)}</span>
             </div>
@@ -278,19 +278,19 @@ export default function WhatIf({ user }) {
               <h3 className="text-white text-sm font-semibold">Hypothetical Items</h3>
               <button
                 onClick={() => setShowItemForm(true)}
-                className="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-gray-950 font-medium min-h-[36px]"
+                className="text-xs px-3 py-1.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-gray-950 font-medium shadow-md shadow-amber-500/20 min-h-[36px]"
               >
                 + Add
               </button>
             </div>
             {(activeScenario.items || []).length === 0 ? (
-              <div className="text-white text-sm text-center py-6 bg-gray-900 border border-gray-800 rounded-xl">
+              <div className="text-white text-sm text-center py-6 bg-gray-900 border border-white/[0.08] rounded-xl">
                 No hypothetical items yet.
               </div>
             ) : (
               <div className="space-y-2">
                 {activeScenario.items.map((it, i) => (
-                  <div key={i} className="bg-gray-900 border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3">
+                  <div key={i} className="bg-gray-900 border border-white/[0.08] rounded-xl p-3 flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <div className="text-white text-sm font-medium truncate">{it.description}</div>
                       <div className="text-white text-xs">{it.date} · {it.category}</div>
@@ -318,7 +318,7 @@ export default function WhatIf({ user }) {
       {showNewForm && (
         <div className="fixed inset-0 z-50 flex items-end justify-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => setShowNewForm(false)} />
-          <form onSubmit={handleCreateScenario} className="relative w-full max-w-md bg-gray-900 border-t border-gray-800 rounded-t-xl p-4 pb-6">
+          <form onSubmit={handleCreateScenario} className="relative w-full max-w-md bg-gray-900 border-t border-white/[0.08] rounded-t-xl p-4 pb-6">
             <div className="w-10 h-1 bg-gray-700 rounded-full mx-auto mb-4" />
             <h2 className="text-white text-lg font-semibold mb-4">New Scenario</h2>
             <input
@@ -332,7 +332,7 @@ export default function WhatIf({ user }) {
               <button type="button" onClick={() => setShowNewForm(false)} className="flex-1 py-2.5 rounded-lg border border-gray-700 text-white min-h-[44px]">
                 Cancel
               </button>
-              <button type="submit" className="flex-1 py-2.5 rounded-lg bg-amber-500 text-gray-950 font-medium min-h-[44px]">
+              <button type="submit" className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-amber-400 to-amber-500 text-gray-950 font-medium shadow-md shadow-amber-500/20 min-h-[44px]">
                 Create
               </button>
             </div>

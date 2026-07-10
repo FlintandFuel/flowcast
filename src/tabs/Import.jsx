@@ -39,7 +39,7 @@ function PreviewTable({ rows, setRows, onConfirm, onCancel, confirming }) {
       <div className="text-xs text-white">{includedCount} of {rows.length} rows will be imported</div>
       <div className="space-y-2 max-h-[50vh] overflow-y-auto">
         {rows.map((r, i) => (
-          <div key={i} className={`bg-gray-900 border border-gray-800 rounded-xl p-3 ${!r.include ? "opacity-40" : ""}`}>
+          <div key={i} className={`bg-gray-900 border border-white/[0.08] rounded-xl p-3 ${!r.include ? "opacity-40" : ""}`}>
             <div className="flex items-start gap-2 mb-2">
               <input
                 type="checkbox"
@@ -108,7 +108,7 @@ function PreviewTable({ rows, setRows, onConfirm, onCancel, confirming }) {
         <button
           onClick={onConfirm}
           disabled={confirming || includedCount === 0}
-          className="flex-1 py-2.5 rounded-lg bg-blue-500 text-white font-medium min-h-[44px] disabled:opacity-50"
+          className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[44px] disabled:opacity-50"
         >
           {confirming ? "Importing..." : `Import ${includedCount}`}
         </button>
@@ -119,7 +119,7 @@ function PreviewTable({ rows, setRows, onConfirm, onCancel, confirming }) {
 
 function SuccessSummary({ summary, onDone }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 space-y-2">
+    <div className="bg-gray-900 border border-white/[0.08] rounded-xl p-4 space-y-2">
       <div className="text-white text-sm font-semibold">Import complete</div>
       <div className="text-white text-sm">{summary.count} transactions imported</div>
       <div className="flex justify-between text-sm">
@@ -130,7 +130,7 @@ function SuccessSummary({ summary, onDone }) {
         <span className="text-white">Total expenses</span>
         <span className="text-red-400">{formatZAR(summary.expense)}</span>
       </div>
-      <button onClick={onDone} className="w-full mt-2 py-2.5 rounded-lg bg-blue-500 text-white font-medium min-h-[44px]">
+      <button onClick={onDone} className="w-full mt-2 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[44px]">
         Done
       </button>
     </div>
@@ -256,7 +256,7 @@ function CsvImport({ user }) {
   return (
     <div className="space-y-3">
       <div>
-        <label className="block text-xs text-white mb-1">Bank</label>
+        <label className="block text-xs text-white/50 mb-1">Bank</label>
         <select
           value={bankKey}
           onChange={(e) => handleBankChange(e.target.value)}
@@ -274,7 +274,7 @@ function CsvImport({ user }) {
       </label>
 
       {headers.length > 0 && (
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-3 space-y-2">
+        <div className="bg-gray-900 border border-white/[0.08] rounded-xl p-3 space-y-2">
           <div className="text-white text-sm font-medium">Map columns</div>
           {[
             { key: "dateCol", label: "Date" },
@@ -340,7 +340,7 @@ function CsvImport({ user }) {
 
           <div className="text-[10px] text-white">{rawRows.length} rows found</div>
 
-          <button onClick={buildPreview} className="w-full py-2.5 rounded-lg bg-blue-500 text-white font-medium min-h-[44px]">
+          <button onClick={buildPreview} className="w-full py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[44px]">
             Preview import
           </button>
         </div>
@@ -501,7 +501,7 @@ function ScreenshotImport({ user }) {
         <button
           onClick={handleProcess}
           disabled={processing}
-          className="w-full py-2.5 rounded-lg bg-blue-500 text-white font-medium min-h-[44px] disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[44px] disabled:opacity-50 flex items-center justify-center gap-2"
         >
           {processing ? (
             <>
@@ -524,7 +524,7 @@ export default function Import({ user }) {
 
   return (
     <div className="p-4 pb-24 space-y-4">
-      <div className="flex rounded-lg overflow-hidden border border-gray-800">
+      <div className="flex rounded-lg overflow-hidden border border-white/[0.08]">
         <button
           onClick={() => setMethod("csv")}
           className={`flex-1 py-2.5 text-sm font-medium min-h-[44px] transition ${

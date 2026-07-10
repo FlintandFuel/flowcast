@@ -50,6 +50,19 @@ export function computeRunway(transactions, balance, now = new Date()) {
   return { months, days: months * 30, level, avgMonthlyExpense };
 }
 
+export function computeCategoryBreakdown(transactions, now = new Date()) {
+  const y = now.getFullYear();
+  const m = now.getMonth();
+  const totals = {};
+  for (const t of transactions) {
+    if (t.type !== "expense" || !inMonth(t.date, y, m)) continue;
+    totals[t.category] = (totals[t.category] || 0) + (Number(t.amount) || 0);
+  }
+  return Object.entries(totals)
+    .map(([category, amount]) => ({ category, amount }))
+    .sort((a, b) => b.amount - a.amount);
+}
+
 export function computeEndOfYearBalance(transactions, recurringItems, balance, now = new Date()) {
   const endOfYear = new Date(now.getFullYear(), 11, 31);
   if (now > endOfYear) return balance;

@@ -3,10 +3,11 @@ import { collection, query, where, onSnapshot, addDoc, serverTimestamp } from "f
 import { db } from "../firebase";
 import HeroCard from "../components/HeroCard.jsx";
 import CashFlowChart from "../components/CashFlowChart.jsx";
+import CategoryBreakdown from "../components/CategoryBreakdown.jsx";
 import { formatZAR, formatDateShort, todayStr } from "../utils/format";
-import { computeBalance, computeSafeToSpend, computeRunway, computeMonthToDate, buildMonthlyChartData } from "../utils/metrics";
+import { computeBalance, computeSafeToSpend, computeRunway, computeMonthToDate, computeCategoryBreakdown, buildMonthlyChartData } from "../utils/metrics";
 import { projectUnpaidOccurrences } from "../utils/recurring";
-import { categoryType } from "../utils/categories";
+import { categoryType, categoryColor } from "../utils/categories";
 
 export default function Dashboard({ user }) {
   const [transactions, setTransactions] = useState([]);
@@ -29,6 +30,7 @@ export default function Dashboard({ user }) {
   const safeToSpend = useMemo(() => computeSafeToSpend(transactions, recurringItems, balance), [transactions, recurringItems, balance]);
   const runway = useMemo(() => computeRunway(transactions, balance), [transactions, balance]);
   const mtd = useMemo(() => computeMonthToDate(transactions), [transactions]);
+  const categoryBreakdown = useMemo(() => computeCategoryBreakdown(transactions), [transactions]);
   const chartData = useMemo(() => buildMonthlyChartData(transactions, recurringItems), [transactions, recurringItems]);
 
   const upcoming = useMemo(() => {
@@ -66,23 +68,30 @@ export default function Dashboard({ user }) {
   };
 
   return (
-    <div className="p-4 space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <HeroCard label="Current Balance" value={formatZAR(balance)} tone={balance >= 0 ? "default" : "red"} />
-        <HeroCard label="Safe-to-Spend" value={formatZAR(safeToSpend)} tone={safeToSpend >= 0 ? "blue" : "red"} />
-        <HeroCard
-          label="Runway"
-          value={runwayLabel}
-          tone={runway.level}
-          sublabel={runway.months === Infinity ? "No recent expenses" : undefined}
-        />
+    <div className="p-4 space-y-5">
+      <div className="space-y-3">
+        <HeroCard hero label="Current Balance" value={formatZAR(balance)} tone={balance >= 0 ? "default" : "red"} />
+        <div className="grid grid-cols-2 gap-3">
+          <HeroCard label="Safe-to-Spend" value={formatZAR(safeToSpend)} tone={safeToSpend >= 0 ? "blue" : "red"} />
+          <HeroCard
+            label="Runway"
+            value={runwayLabel}
+            tone={runway.level}
+            sublabel={runway.months === Infinity ? "No recent expenses" : undefined}
+          />
+        </div>
         <HeroCard label="Month-to-Date">
           <div className="flex items-baseline gap-2">
             <span className="text-green-500 text-lg font-bold">{formatZAR(mtd.income)}</span>
-            <span className="text-white text-xs">/</span>
+            <span className="text-white/40 text-xs">/</span>
             <span className="text-red-400 text-lg font-bold">{formatZAR(mtd.expense)}</span>
           </div>
         </HeroCard>
+      </div>
+
+      <div>
+        <h2 className="text-white text-sm font-semibold mb-2">Spending by Category</h2>
+        <CategoryBreakdown data={categoryBreakdown} />
       </div>
 
       <div>
@@ -93,7 +102,7 @@ export default function Dashboard({ user }) {
       <div>
         <h2 className="text-white text-sm font-semibold mb-2">Upcoming this month</h2>
         {upcoming.length === 0 ? (
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 text-white text-sm text-center">
+          <div className="bg-gray-900 border border-white/[0.08] rounded-xl p-4 text-white/50 text-sm text-center">
             Nothing due in the next 30 days.
           </div>
         ) : (
@@ -102,10 +111,11 @@ export default function Dashboard({ user }) {
               const key = o.recurringItemId + o.date;
               const overdue = o.date < todayStr();
               return (
-                <div key={key} className="bg-gray-900 border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3">
+                <div key={key} className="bg-gray-900 border border-white/[0.08] rounded-xl p-3 flex items-center justify-between gap-3">
                   <div className="min-w-0">
                     <div className="text-white text-sm font-medium truncate">{o.description}</div>
-                    <div className="text-white text-xs">
+                    <div className="flex items-center gap-1.5 text-white/50 text-xs mt-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: categoryColor(o.category) }} />
                       {o.category} · {formatDateShort(o.date)}
                       {overdue && <span className="text-red-400"> · overdue</span>}
                     </div>

@@ -28,7 +28,7 @@ export default function CashFlowChart({ data, scenarioData }) {
   const selected = chartData.find((m) => m.key === selectedKey) || chartData.find((m) => m.key === defaultKey);
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-3">
+    <div className="bg-gray-900 border border-white/[0.08] rounded-xl p-3">
       <ResponsiveContainer width="100%" height={180}>
         <BarChart data={chartData} margin={{ top: 8, right: 4, left: 4, bottom: 0 }}>
           <XAxis
@@ -69,7 +69,7 @@ export default function CashFlowChart({ data, scenarioData }) {
       </div>
 
       {selected && (
-        <div className="mt-3 border-t border-gray-800 pt-3 px-1">
+        <div className="mt-3 border-t border-white/[0.08] pt-3 px-1">
           <div className="text-white text-sm font-medium mb-1">{selected.label} breakdown</div>
           <div className="flex justify-between text-xs">
             <span className="text-white">Income</span>

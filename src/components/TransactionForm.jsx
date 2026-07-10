@@ -75,12 +75,12 @@ export default function TransactionForm({ user, onClose, onSaved }) {
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-md bg-gray-900 border-t border-gray-800 rounded-t-xl p-4 pb-6 max-h-[88vh] overflow-y-auto"
+        className="relative w-full max-w-md bg-gray-900 border-t border-white/[0.08] rounded-t-xl p-4 pb-6 max-h-[88vh] overflow-y-auto"
       >
         <div className="w-10 h-1 bg-gray-700 rounded-full mx-auto mb-4" />
         <h2 className="text-white text-lg font-semibold mb-4">Add Transaction</h2>
 
-        <div className="flex rounded-lg overflow-hidden border border-gray-800 mb-4">
+        <div className="flex rounded-lg overflow-hidden border border-white/[0.08] mb-4">
           <button
             type="button"
             onClick={() => handleTypeChange("income")}
@@ -101,7 +101,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           </button>
         </div>
 
-        <label className="block text-xs text-white mb-1">Amount (ZAR)</label>
+        <label className="block text-xs text-white/50 mb-1">Amount (ZAR)</label>
         <input
           type="number"
           step="0.01"
@@ -112,7 +112,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-white mb-1">Description</label>
+        <label className="block text-xs text-white/50 mb-1">Description</label>
         <input
           type="text"
           value={description}
@@ -121,7 +121,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-white mb-1">Category</label>
+        <label className="block text-xs text-white/50 mb-1">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -132,7 +132,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           ))}
         </select>
 
-        <label className="block text-xs text-white mb-1">Date</label>
+        <label className="block text-xs text-white/50 mb-1">Date</label>
         <input
           type="date"
           value={date}
@@ -158,7 +158,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
         {recurring && (
           <div className="mb-3 space-y-3">
             <div>
-              <label className="block text-xs text-white mb-1">Frequency</label>
+              <label className="block text-xs text-white/50 mb-1">Frequency</label>
               <select
                 value={frequency}
                 onChange={(e) => setFrequency(e.target.value)}
@@ -170,7 +170,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
               </select>
             </div>
             <div>
-              <label className="block text-xs text-white mb-1">Start date</label>
+              <label className="block text-xs text-white/50 mb-1">Start date</label>
               <input
                 type="date"
                 value={startDate}
@@ -194,7 +194,7 @@ export default function TransactionForm({ user, onClose, onSaved }) {
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 py-2.5 rounded-lg bg-blue-500 text-white font-medium min-h-[44px] disabled:opacity-50"
+            className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[44px] disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>

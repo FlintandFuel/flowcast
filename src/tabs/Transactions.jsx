@@ -3,7 +3,7 @@ import { collection, query, where, onSnapshot, deleteDoc, doc } from "firebase/f
 import { db } from "../firebase";
 import TransactionForm from "../components/TransactionForm.jsx";
 import { formatZAR, formatDateDisplay } from "../utils/format";
-import { ALL_CATEGORIES } from "../utils/categories";
+import { ALL_CATEGORIES, categoryColor } from "../utils/categories";
 
 export default function Transactions({ user }) {
   const [transactions, setTransactions] = useState([]);
@@ -54,7 +54,7 @@ export default function Transactions({ user }) {
                 key={f}
                 onClick={() => setFilterType(f)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap min-h-[32px] ${
-                  filterType === f ? "bg-blue-500 text-white" : "bg-gray-900 text-white border border-gray-800"
+                  filterType === f ? "bg-blue-500 text-white" : "bg-gray-900 text-white border border-white/[0.08]"
                 }`}
               >
                 {f === "all" ? "All" : f === "income" ? "Income" : "Expenses"}
@@ -71,7 +71,7 @@ export default function Transactions({ user }) {
         <select
           value={filterCategory}
           onChange={(e) => setFilterCategory(e.target.value)}
-          className="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-white text-xs min-h-[36px]"
+          className="w-full bg-gray-900 border border-white/[0.08] rounded-lg px-3 py-2 text-white text-xs min-h-[36px]"
         >
           <option value="all">All Categories</option>
           {ALL_CATEGORIES.map((c) => (
@@ -85,7 +85,7 @@ export default function Transactions({ user }) {
           <div className="text-white text-sm text-center py-10">No transactions found.</div>
         ) : (
           filtered.map((t) => (
-            <div key={t.id} className="bg-gray-900 border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3">
+            <div key={t.id} className="bg-gray-900 border border-white/[0.08] rounded-xl p-3 flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <div className="text-white text-sm font-medium truncate flex items-center gap-2">
                   {t.description}
@@ -95,7 +95,10 @@ export default function Transactions({ user }) {
                     </span>
                   )}
                 </div>
-                <div className="text-white text-xs">{formatDateDisplay(t.date)} · {t.category}</div>
+                <div className="flex items-center gap-1.5 text-white/50 text-xs mt-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: categoryColor(t.category) }} />
+                  {formatDateDisplay(t.date)} · {t.category}
+                </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <span className={`text-sm font-semibold ${t.type === "income" ? "text-green-500" : "text-red-400"}`}>
@@ -115,7 +118,7 @@ export default function Transactions({ user }) {
 
       <button
         onClick={() => setShowForm(true)}
-        className="absolute bottom-4 right-4 w-14 h-14 rounded-full bg-blue-500 text-white text-2xl flex items-center justify-center shadow-lg"
+        className="absolute bottom-4 right-4 w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white text-2xl flex items-center justify-center shadow-lg shadow-blue-500/30"
       >
         +
       </button>

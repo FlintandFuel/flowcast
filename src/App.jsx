@@ -7,13 +7,14 @@ import Transactions from "./tabs/Transactions.jsx";
 import Recurring from "./tabs/Recurring.jsx";
 import WhatIf from "./tabs/WhatIf.jsx";
 import Import from "./tabs/Import.jsx";
+import { DashboardIcon, TransactionsIcon, RecurringIcon, WhatIfIcon, ImportIcon } from "./components/icons.jsx";
 
 const tabs = [
-  { id: "dashboard", label: "Dashboard", icon: "⬡" },
-  { id: "transactions", label: "Transactions", icon: "≡" },
-  { id: "recurring", label: "Recurring", icon: "↻" },
-  { id: "whatif", label: "What-If", icon: "◈" },
-  { id: "import", label: "Import", icon: "⇪" },
+  { id: "dashboard", label: "Dashboard", Icon: DashboardIcon },
+  { id: "transactions", label: "Transactions", Icon: TransactionsIcon },
+  { id: "recurring", label: "Recurring", Icon: RecurringIcon },
+  { id: "whatif", label: "What-If", Icon: WhatIfIcon },
+  { id: "import", label: "Import", Icon: ImportIcon },
 ];
 
 const LOGIN_ERROR_MESSAGES = {
@@ -56,23 +57,26 @@ export default function App() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-        <div className="text-white text-sm tracking-widest uppercase">Loading...</div>
+        <div className="text-white/40 text-sm tracking-widest uppercase">Loading...</div>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center px-6">
-        <h1 className="text-white text-3xl font-bold mb-2">FlowCast</h1>
-        <p className="text-white text-sm mb-8 text-center">Know your numbers. Own your future.</p>
+      <div className="relative min-h-screen bg-gray-950 flex flex-col items-center justify-center px-6 overflow-hidden">
+        <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-blue-500/15 blur-[100px]" />
+        <h1 className="relative text-transparent bg-clip-text bg-gradient-to-br from-white to-blue-200 text-5xl font-bold mb-3 tracking-tight">
+          FlowCast
+        </h1>
+        <p className="relative text-white/50 text-sm mb-10 text-center">Know your numbers. Own your future.</p>
         <button
           onClick={handleLogin}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-medium transition min-h-[44px]"
+          className="relative bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white px-7 py-3 rounded-xl font-medium transition min-h-[44px] shadow-lg shadow-blue-500/25"
         >
           Sign in with Google
         </button>
-        {loginError && <p className="text-red-400 text-xs mt-4 text-center max-w-xs">{loginError}</p>}
+        {loginError && <p className="relative text-red-400 text-xs mt-4 text-center max-w-xs">{loginError}</p>}
       </div>
     );
   }
@@ -90,13 +94,13 @@ export default function App() {
 
   return (
     <div className="h-screen bg-gray-950 flex flex-col max-w-md mx-auto">
-      <div className="border-b border-gray-800 px-4 py-3 flex items-center justify-between flex-shrink-0">
-        <h1 className="text-white font-bold text-lg">FlowCast</h1>
+      <div className="border-b border-white/[0.08] px-4 py-3 flex items-center justify-between flex-shrink-0">
+        <h1 className="text-white font-bold text-lg tracking-tight">FlowCast</h1>
         <div className="flex items-center gap-3">
-          <span className="text-white text-xs">{user.displayName}</span>
+          <span className="text-white/50 text-xs">{user.displayName}</span>
           <button
             onClick={handleLogout}
-            className="text-white hover:text-white text-xs transition"
+            className="text-white/50 hover:text-white text-xs transition"
           >
             Logout
           </button>
@@ -107,17 +111,17 @@ export default function App() {
         {renderTab()}
       </div>
 
-      <div className="border-t border-gray-800 flex bg-gray-950 flex-shrink-0">
+      <div className="border-t border-white/[0.08] flex bg-gray-950 flex-shrink-0">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 flex flex-col items-center py-2 px-1 transition min-h-[44px] ${
-              activeTab === tab.id ? "text-blue-500" : "text-white hover:text-white"
+            className={`flex-1 flex flex-col items-center gap-0.5 py-2 px-1 transition min-h-[44px] ${
+              activeTab === tab.id ? "text-blue-500" : "text-white/40 hover:text-white/70"
             }`}
           >
-            <span className="text-lg leading-none">{tab.icon}</span>
-            <span className="text-[10px] mt-0.5">{tab.label}</span>
+            <tab.Icon />
+            <span className="text-[10px]">{tab.label}</span>
           </button>
         ))}
       </div>

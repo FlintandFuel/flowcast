@@ -2,7 +2,7 @@
 import { collection, query, where, onSnapshot, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { formatZAR, todayStr, toDateStr, formatDateDisplay } from "../utils/format";
-import { categoriesForType, categoryType } from "../utils/categories";
+import { categoriesForType, categoryType, categoryColor } from "../utils/categories";
 import { getNextDueDate } from "../utils/recurring";
 
 function ItemForm({ user, item, onClose }) {
@@ -65,12 +65,12 @@ function ItemForm({ user, item, onClose }) {
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
       <form
         onSubmit={handleSubmit}
-        className="relative w-full max-w-md bg-gray-900 border-t border-gray-800 rounded-t-xl p-4 pb-6 max-h-[88vh] overflow-y-auto"
+        className="relative w-full max-w-md bg-gray-900 border-t border-white/[0.08] rounded-t-xl p-4 pb-6 max-h-[88vh] overflow-y-auto"
       >
         <div className="w-10 h-1 bg-gray-700 rounded-full mx-auto mb-4" />
         <h2 className="text-white text-lg font-semibold mb-4">{item ? "Edit" : "Add"} Recurring Item</h2>
 
-        <div className="flex rounded-lg overflow-hidden border border-gray-800 mb-4">
+        <div className="flex rounded-lg overflow-hidden border border-white/[0.08] mb-4">
           <button
             type="button"
             onClick={() => handleTypeChange("income")}
@@ -91,7 +91,7 @@ function ItemForm({ user, item, onClose }) {
           </button>
         </div>
 
-        <label className="block text-xs text-white mb-1">Name</label>
+        <label className="block text-xs text-white/50 mb-1">Name</label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -99,7 +99,7 @@ function ItemForm({ user, item, onClose }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-white mb-1">Amount (ZAR)</label>
+        <label className="block text-xs text-white/50 mb-1">Amount (ZAR)</label>
         <input
           type="number"
           step="0.01"
@@ -110,7 +110,7 @@ function ItemForm({ user, item, onClose }) {
           className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white mb-3 min-h-[44px] focus:outline-none focus:border-blue-500"
         />
 
-        <label className="block text-xs text-white mb-1">Category</label>
+        <label className="block text-xs text-white/50 mb-1">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -121,7 +121,7 @@ function ItemForm({ user, item, onClose }) {
           ))}
         </select>
 
-        <label className="block text-xs text-white mb-1">Frequency</label>
+        <label className="block text-xs text-white/50 mb-1">Frequency</label>
         <select
           value={frequency}
           onChange={(e) => setFrequency(e.target.value)}
@@ -132,7 +132,7 @@ function ItemForm({ user, item, onClose }) {
           <option value="annually">Annually</option>
         </select>
 
-        <label className="block text-xs text-white mb-1">Start date</label>
+        <label className="block text-xs text-white/50 mb-1">Start date</label>
         <input
           type="date"
           value={startDate}
@@ -153,7 +153,7 @@ function ItemForm({ user, item, onClose }) {
           <button
             type="submit"
             disabled={saving}
-            className="flex-1 py-2.5 rounded-lg bg-blue-500 text-white font-medium min-h-[44px] disabled:opacity-50"
+            className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[44px] disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>
@@ -203,7 +203,7 @@ export default function Recurring({ user }) {
             setEditItem(null);
             setShowForm(true);
           }}
-          className="text-xs px-3 py-1.5 rounded-lg bg-blue-500 text-white font-medium min-h-[36px]"
+          className="text-xs px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium shadow-md shadow-blue-500/20 min-h-[36px]"
         >
           + Add
         </button>
@@ -218,7 +218,7 @@ export default function Recurring({ user }) {
           return (
             <div
               key={item.id}
-              className={`bg-gray-900 border border-gray-800 rounded-xl p-3 ${!item.active ? "opacity-50" : ""}`}
+              className={`bg-gray-900 border border-white/[0.08] rounded-xl p-3 ${!item.active ? "opacity-50" : ""}`}
             >
               <div className="flex items-start justify-between gap-3">
                 <div
@@ -229,7 +229,10 @@ export default function Recurring({ user }) {
                   }}
                 >
                   <div className="text-white text-sm font-medium truncate">{item.name}</div>
-                  <div className="text-white text-xs">{item.category} · {item.frequency}</div>
+                  <div className="flex items-center gap-1.5 text-white/50 text-xs">
+                    <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: categoryColor(item.category) }} />
+                    {item.category} · {item.frequency}
+                  </div>
                   <div className="text-white text-xs mt-0.5">
                     Next due: {next ? formatDateDisplay(toDateStr(next)) : "—"}
                   </div>
@@ -250,7 +253,7 @@ export default function Recurring({ user }) {
                   </button>
                 </div>
               </div>
-              <div className="flex gap-3 mt-2 pt-2 border-t border-gray-800">
+              <div className="flex gap-3 mt-2 pt-2 border-t border-white/[0.08]">
                 <button
                   onClick={() => {
                     setEditItem(item);
