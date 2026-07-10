@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "target": "flowcast",
     "public": "dist",
     "ignore": [
       "firebase.json",
