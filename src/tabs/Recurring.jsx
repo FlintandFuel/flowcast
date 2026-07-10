@@ -257,11 +257,13 @@ export default function Recurring({ user }) {
                   </span>
                   <button
                     onClick={() => handleToggleActive(item)}
-                    className={`w-11 h-6 rounded-full transition relative ${item.active ? "bg-blue-500" : "bg-gray-700"}`}
+                    className={`inline-flex items-center h-6 w-11 rounded-full transition-colors flex-shrink-0 ${
+                      item.active ? "bg-blue-500" : "bg-gray-700"
+                    }`}
                   >
                     <span
-                      className={`absolute top-0.5 w-5 h-5 rounded-full bg-white transition-transform ${
-                        item.active ? "translate-x-[22px]" : "translate-x-0.5"
+                      className={`inline-block h-4 w-4 rounded-full bg-white transition-transform ${
+                        item.active ? "translate-x-6" : "translate-x-1"
                       }`}
                     />
                   </button>
